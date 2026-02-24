@@ -24,4 +24,7 @@ public class User {
 
     @OneToMany
     List<Address> addresses = new ArrayList<>();
+
+//    @OneToMany
+//    List<Product> products = new ArrayList<>();
 }

@@ -71,5 +71,18 @@ public class AddressController {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @DeleteMapping("api/address/{addressId}")
+    public ResponseEntity<Address> deleteAddress(@PathVariable Long addressId){
+        try{
+            Boolean b = addressService.deleteAddress(addressId);
+            if(b==true){
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return new  ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 
 }

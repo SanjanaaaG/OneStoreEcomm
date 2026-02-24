@@ -41,6 +41,7 @@ public class AddressImpl implements AddressService {
     @Override
     public Boolean deleteAddress(Long id) {
         if(arepo.existsById(id)){
+            arepo.deleteById(id);
             return true;
         }
         return false;
