@@ -13,9 +13,13 @@ public class Product {
     private String productName;
     private String productDescription;
     private Double amount;
+    @Lob
+    private byte[] image;
 
     @ManyToOne
     @JoinColumn(name = "categoryId")
     @JsonBackReference
     private Category category;
+
+
 }

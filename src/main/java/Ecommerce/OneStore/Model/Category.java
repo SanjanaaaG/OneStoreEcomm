@@ -14,11 +14,10 @@ import java.util.List;
 @Data
 public class Category {
     @Id
-    private int categoryId;
+    private Long categoryId;
     private String categoryName;
 
     @OneToMany
-    @JoinColumn(name = "productId")
     @JsonManagedReference
     private List<Product> products = new ArrayList<>();
 }

@@ -1,5 +1,7 @@
 package Ecommerce.OneStore.Controller;
 
+import Ecommerce.OneStore.Dto.ProductRequest;
+import Ecommerce.OneStore.Dto.ProductResponse;
 import Ecommerce.OneStore.Model.Product;
 import Ecommerce.OneStore.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200/")
@@ -16,10 +19,10 @@ public class ProductController {
     @Autowired
     private ProductService productservice;
 
-    @PostMapping("/api/products")
-    public ResponseEntity<Product> AddProduct(@RequestBody Product products) {
+    @PostMapping(value = "/api/products" , consumes = {"multipart/form-data"})
+    public ResponseEntity<Product> AddProduct(@ModelAttribute ProductRequest products) throws IOException {
         try{
-            Product p = productservice.SaveProduct(products);
+            Product p = productservice.SaveProduct(products, products.getImage());
             if(p!=null){
                 return new ResponseEntity<>(p,HttpStatus.OK);
             }
@@ -30,9 +33,9 @@ public class ProductController {
     }
 
     @GetMapping("/api/products")
-    public ResponseEntity<List<Product>> getAllProducts(){
+    public ResponseEntity<List<ProductResponse>> getAllProducts(){
         try {
-            List<Product> p = productservice.findAllProducts();
+            List<ProductResponse> p = productservice.findAllProducts();
             if(p != null) {
                 return new ResponseEntity<>(p, HttpStatus.OK);
             }
@@ -55,8 +58,8 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping("/api/products/{productId}")
-    public ResponseEntity<Product> uppdateProduct(@RequestBody Product product, @PathVariable Long productId){
+    @PutMapping(value ="/api/products/{productId}" , consumes = {"multipart/form-data"})
+    public ResponseEntity<Product> uppdateProduct(@ModelAttribute ProductRequest product, @PathVariable Long productId){
         try{
             Product p = productservice.updateProduct(product,productId);
             if(p!=null){
